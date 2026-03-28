@@ -1,77 +1,261 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>itmir913의 페이지</title>
+    <title>Hi there 👋 | luminousky.com</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Pretendard Variable"', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+                    },
+                    colors: {
+                        apple: {
+                            bg: '#fbfbfd',    /* Apple's signature light background */
+                            text: '#1d1d1f',  /* Apple's primary dark text */
+                            muted: '#86868b', /* Apple's secondary gray text */
+                            link: '#0066cc'   /* Apple's classic blue link color */
+                        }
+                    },
+                    letterSpacing: {
+                        tighter: '-0.04em',
+                        tight: '-0.02em',
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        /* 기본적인 웹페이지 스타일 */
+        @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+
+        /* Apply Pretendard font and Apple-like base styling */
         body {
-            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
+            font-family: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
+            background-color: #fbfbfd;
+            color: #1d1d1f;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: -0.01em;
         }
-        header {
-            background-color: #2c3e50;
-            color: #ffffff;
-            padding: 3rem 0;
-            text-align: center;
+
+        /* --- Apple-style Smooth Scroll Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            /* Apple uses a very specific, smooth cubic-bezier for animations */
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
         }
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
-        main {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+        .delay-100 {
+            transition-delay: 100ms;
         }
-        footer {
-            text-align: center;
-            padding: 1.5rem 0;
-            margin-top: 2rem;
-            color: #666;
-            font-size: 0.9rem;
+
+        .delay-200 {
+            transition-delay: 200ms;
         }
-        a {
-            color: #3498db;
-            text-decoration: none;
+
+        .delay-300 {
+            transition-delay: 300ms;
         }
-        a:hover {
-            text-decoration: underline;
+
+        /* Initial Hero Load Animation */
+        @keyframes hero-reveal {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-animate {
+            animation: hero-reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        .hero-delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .hero-delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce-subtle {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(8px);
+            }
+        }
+
+        .animate-bounce-subtle {
+            animation: bounce-subtle 2.5s infinite ease-in-out;
+        }
+
+        /* --- Ambient Gradient Blobs for Hero --- */
+        @keyframes ambient-drift {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(5%, 5%) scale(1.05);
+            }
+            66% {
+                transform: translate(-5%, 2%) scale(0.95);
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+
+        .hero-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.8;
+            animation: ambient-drift 15s infinite ease-in-out alternate;
+        }
+
+        .blob-1 {
+            top: -20%;
+            left: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: #c896ff;
+        }
+
+        .blob-2 {
+            top: 20%;
+            right: -20%;
+            width: 50vw;
+            height: 50vw;
+            background: #7ca6f2;
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            bottom: -20%;
+            left: 10%;
+            width: 70vw;
+            height: 70vw;
+            background: #ffbfa1;
+            animation-delay: -10s;
         }
     </style>
 </head>
-<body>
+<body class="selection:bg-apple-text selection:text-white">
 
-    <header>
-        <h1>안녕하세요!</h1>
-        <p>itmir913.github.io 에 오신 것을 환영합니다.</p>
-    </header>
+<section class="relative min-h-[60vh] py-20 flex flex-col items-center justify-center px-6 overflow-hidden">
+    <div class="absolute inset-0 w-full h-full pointer-events-none z-0">
+        <div class="hero-blob blob-1"></div>
+        <div class="hero-blob blob-2"></div>
+        <div class="hero-blob blob-3"></div>
+        <div class="absolute bottom-0 left-0 w-full h-80 bg-gradient-to-t from-white via-white/70 to-transparent"></div>
+    </div>
 
-    <main>
-        <h2>소개</h2>
-        <p>이곳은 <strong>itmir913</strong>의 깃허브 페이지(GitHub Pages) 첫 화면입니다. 코드를 수정하여 나만의 멋진 포트폴리오나 블로그로 꾸며보세요.</p>
+    <div class="z-10 text-center max-w-4xl mx-auto relative -translate-y-10">
+        <h1 class="text-5xl md:text-7xl font-semibold tracking-tighter mb-6 hero-animate">
+            Hi, I'm luminousky 👋
+        </h1>
+        <p class="text-xl md:text-2xl text-apple-muted font-medium max-w-2xl mx-auto hero-animate hero-delay-1 tracking-tight leading-relaxed">
+            I build useful things with code and share knowledge.
+        </p>
+    </div>
 
-        <h3>시작하기</h3>
-        <ul>
-            <li><code>index.html</code> 파일의 텍스트를 원하는 대로 수정해보세요.</li>
-            <li>CSS를 추가하여 디자인을 더 예쁘게 바꿀 수 있습니다.</li>
-            <li>다른 HTML 파일을 만들어 링크로 연결할 수도 있습니다.</li>
-        </ul>
+    <div class="absolute bottom-12 hero-animate hero-delay-2">
+        <a href="#about"
+           class="flex flex-col items-center text-apple-muted hover:text-apple-text transition-colors duration-500">
+            <span class="text-xs font-semibold mb-2 uppercase tracking-[0.15em]">Scroll</span>
+            <svg class="w-5 h-5 animate-bounce-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </a>
+    </div>
+</section>
 
-        <p>더 많은 정보는 <a href="https://github.com/itmir913" target="_blank">저의 GitHub 프로필</a>에서 확인해 주세요!</p>
-    </main>
+<section id="about" class="py-40 px-6 bg-white">
+    <div class="max-w-4xl mx-auto">
+        <h2 class="text-base font-semibold uppercase tracking-[0.2em] text-apple-muted mb-16 text-center reveal">About
+            Me</h2>
 
-    <footer>
-        <p>&copy; 2026 itmir913. Powered by GitHub Pages.</p>
-    </footer>
+        <div class="space-y-10 md:space-y-14 text-2xl md:text-4xl font-semibold leading-snug md:leading-snug tracking-tight text-center">
+            <p class="reveal">
+                Computer science <span class="text-apple-link">teacher</span> and <span class="text-apple-link">developer</span>
+                who enjoys building useful things with code and sharing knowledge.
+            </p>
+            <p class="reveal text-apple-muted delay-100">
+                <span class="text-apple-text text-xl md:text-3xl align-middle mr-2">📚</span>
+                <span class="text-apple-text">Currently learning:</span> Python, Java, C
+            </p>
+            <p class="reveal text-apple-muted delay-200">
+                <span class="text-apple-text text-xl md:text-3xl align-middle mr-2">💡</span>
+                <span class="text-apple-text">Interested in:</span> Software development, computer science, AI education
+            </p>
+            <p class="reveal text-apple-muted delay-300">
+                <span class="text-apple-text text-xl md:text-3xl align-middle mr-2">🛠️</span>
+                <span class="text-apple-text">Working on:</span> Small programming tools and educational materials
+            </p>
+        </div>
+    </div>
+</section>
 
+<footer class="py-12 bg-[#f5f5f7]">
+    <div class="max-w-4xl mx-auto px-6 text-center reveal">
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter mb-6">Let's build something great.</h2>
+
+        <div class="flex flex-wrap justify-center gap-5 mb-10">
+            <a href="https://github.com/itmir913" target="_blank"
+               class="px-8 py-3.5 border border-[#d2d2d7] bg-white text-apple-text rounded-full text-base font-semibold hover:bg-apple-text hover:text-white hover:border-apple-text transition-all duration-300">
+                GitHub
+            </a>
+            <a href="mailto:itmir913@gmail.com"
+               class="px-8 py-3.5 border border-[#d2d2d7] bg-white text-apple-text rounded-full text-base font-semibold hover:bg-apple-text hover:text-white hover:border-apple-text transition-all duration-300">
+                Email Me
+            </a>
+        </div>
+
+        <p class="text-base font-medium text-apple-muted tracking-tight">
+            &copy; 2026 CS Teacher & Developer. Built with clean code and minimalist design.
+        </p>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const reveals = document.querySelectorAll('.reveal');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        });
+
+        reveals.forEach(reveal => {
+            observer.observe(reveal);
+        });
+    });
+</script>
 </body>
 </html>
