@@ -70,6 +70,14 @@
             transition-delay: 300ms;
         }
 
+        .delay-400 {
+            transition-delay: 400ms;
+        }
+
+        .text-apple-link {
+            transition: color 0.3s ease, text-underline-offset 0.3s ease;
+        }
+
         /* Initial Hero Load Animation */
         @keyframes hero-reveal {
             from {
@@ -190,35 +198,40 @@
     </div>
 </section>
 
-<section id="about" class="py-40 px-6 bg-white">
+<section id="about" class="py-24 md:py-40 px-6 bg-white">
     <div class="max-w-4xl mx-auto">
-        <h2 class="text-base font-semibold uppercase tracking-[0.2em] text-apple-muted mb-16 text-center reveal">About
-            Me</h2>
+        <h2 class="text-base font-semibold uppercase tracking-[0.2em] text-apple-muted mb-16 text-center reveal">
+            About Me
+        </h2>
 
-        <div class="space-y-10 md:space-y-14 text-2xl md:text-4xl font-semibold leading-snug md:leading-snug tracking-tight text-center">
-            <p class="reveal">
+        <div class="text-center">
+            <p class="reveal text-2xl md:text-4xl font-semibold leading-snug tracking-tight mb-16 md:mb-20">
                 Computer science <span class="text-apple-link">teacher</span> and <span class="text-apple-link">developer</span>
                 who enjoys building useful things with code and sharing knowledge.
             </p>
-            <p class="reveal text-apple-muted delay-100">
-                <span class="text-apple-text text-xl md:text-3xl align-middle mr-2">📚</span>
-                <span class="text-apple-text">Currently learning:</span> Python, Java, C
-            </p>
-            <p class="reveal text-apple-muted delay-200">
-                <span class="text-apple-text text-xl md:text-3xl align-middle mr-2">💡</span>
-                <span class="text-apple-text">Interested in:</span> Software development, computer science, AI education
-            </p>
-            <p class="reveal text-apple-muted delay-300">
-                <span class="text-apple-text text-xl md:text-3xl align-middle mr-2">🛠️</span>
-                <span class="text-apple-text">Working on:</span> Small programming tools and educational materials
-            </p>
-            <p class="reveal text-2xl md:text-3xl font-semibold delay-[400ms] pt-4">
-                Explore them all at the
-                <a href="/teacher-utility-kit/"
-                   class="text-apple-link hover:underline decoration-auto underline-offset-8">
-                    Teacher Utility Kit <span class="inline-block transition-transform hover:translate-x-1">→</span>
-                </a>
-            </p>
+
+            <div class="space-y-6 md:space-y-8 text-xl md:text-2xl font-medium text-apple-muted mb-16 md:mb-20 tracking-tight">
+                <p class="reveal delay-100">
+                    <span class="text-apple-text mr-2">📚 Currently learning:</span> Python, Java, C
+                </p>
+                <p class="reveal delay-200">
+                    <span class="text-apple-text mr-2">💡 Interested in:</span> Software development, AI education
+                </p>
+                <p class="reveal delay-300">
+                    <span class="text-apple-text mr-2">🛠️ Working on:</span> Small programming tools and materials
+                </p>
+            </div>
+
+            <div class="reveal delay-400">
+                <p class="text-2xl md:text-3xl tracking-tight">
+                    <span class="block md:inline mb-2 md:mb-0 text-apple-muted font-medium">Explore them all at the</span>
+                    <a href="/teacher-utility-kit/"
+                       class="text-apple-link font-semibold hover:underline decoration-1 underline-offset-[12px] transition-all">
+                        Teacher Utility Kit
+                        <span class="ml-1 inline-block transition-transform hover:translate-x-1 duration-500">→</span>
+                    </a>
+                </p>
+            </div>
         </div>
     </div>
 </section>
@@ -229,11 +242,11 @@
 
         <div class="flex flex-wrap justify-center gap-5 mb-10">
             <a href="https://github.com/itmir913" target="_blank"
-               class="px-8 py-3.5 border border-[#d2d2d7] bg-white text-apple-text rounded-full text-base font-semibold hover:bg-apple-text hover:text-white hover:border-apple-text transition-all duration-300">
+               class="px-8 py-3.5 border border-[#d2d2d7] bg-white text-apple-text rounded-full text-base font-semibold hover:bg-apple-text hover:text-white hover:border-apple-text transition-all duration-500">
                 GitHub
             </a>
             <a href="mailto:itmir913@gmail.com"
-               class="px-8 py-3.5 border border-[#d2d2d7] bg-white text-apple-text rounded-full text-base font-semibold hover:bg-apple-text hover:text-white hover:border-apple-text transition-all duration-300">
+               class="px-8 py-3.5 border border-[#d2d2d7] bg-white text-apple-text rounded-full text-base font-semibold hover:bg-apple-text hover:text-white hover:border-apple-text transition-all duration-500">
                 Email Me
             </a>
         </div>
