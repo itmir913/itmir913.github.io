@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hi there 👋 | luminousky.com</title>
+    <title>luminousky</title>
+    <meta name="description" content="luminousky — Software that gets out of your way. Building tools that start with a real problem and stop when the solution is genuinely simple.">
+    <meta property="og:title" content="luminousky">
+    <meta property="og:description" content="Software that gets out of your way.">
+    <meta property="og:url" content="https://luminousky.com">
+    <meta property="og:type" content="website">
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -49,7 +54,7 @@
             opacity: 0;
             transform: translateY(30px);
             /* Apple uses a very specific, smooth cubic-bezier for animations */
-            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
 
@@ -91,7 +96,7 @@
         }
 
         .hero-animate {
-            animation: hero-reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: hero-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
         }
 
@@ -179,10 +184,10 @@
 
     <div class="z-10 text-center max-w-4xl mx-auto relative -translate-y-10">
         <h1 class="text-5xl md:text-7xl font-semibold tracking-tighter mb-6 hero-animate">
-            Hi, I'm luminousky 👋
+            luminousky
         </h1>
         <p class="text-xl md:text-2xl text-apple-muted font-medium max-w-2xl mx-auto hero-animate hero-delay-1 tracking-tight leading-relaxed">
-            I build useful things with code and share knowledge.
+            Software that gets out of your way.
         </p>
     </div>
 
@@ -200,60 +205,72 @@
 
 <section id="about" class="py-24 md:py-40 px-6 bg-white">
     <div class="max-w-4xl mx-auto">
-        <h2 class="text-base font-semibold uppercase tracking-[0.2em] text-apple-muted mb-16 text-center reveal">
-            About Me
-        </h2>
-
         <div class="text-center">
             <p class="reveal text-2xl md:text-4xl font-semibold leading-snug tracking-tight mb-16 md:mb-20">
-                Computer science <span class="text-apple-link">teacher</span> and <span class="text-apple-link">developer</span>
-                who enjoys building useful things with code and sharing knowledge.
+                Software should reduce friction.<br>
+                Not add to it.
             </p>
 
-            <div class="space-y-6 md:space-y-8 text-xl md:text-2xl font-medium text-apple-muted mb-16 md:mb-20 tracking-tight">
-                <p class="reveal delay-100">
-                    <span class="text-apple-text mr-2">📚 Currently learning:</span> Python, Java, C
-                </p>
-                <p class="reveal delay-200">
-                    <span class="text-apple-text mr-2">💡 Interested in:</span> Software development, AI education
-                </p>
-                <p class="reveal delay-300">
-                    <span class="text-apple-text mr-2">🛠️ Working on:</span> Small programming tools and materials
+            <div class="reveal delay-100 max-w-2xl mx-auto mb-16 md:mb-20">
+                <p class="text-xl md:text-2xl text-apple-muted font-medium tracking-tight leading-relaxed">
+                    I build tools that start with a real problem and stop the moment
+                    the solution becomes genuinely simple. I think in decades, not trends.
                 </p>
             </div>
 
-            <div class="reveal delay-400">
-                <p class="text-2xl md:text-3xl tracking-tight">
-                    <span class="block md:inline mb-2 md:mb-0 text-apple-muted font-medium">Explore them all at the</span>
+            <div class="reveal delay-200 mb-16 md:mb-20">
+                <div class="flex flex-wrap justify-center gap-2">
+                    <span class="px-4 py-1.5 rounded-full border border-[#d2d2d7] text-sm font-medium text-apple-muted tracking-tight">Simple</span>
+                    <span class="px-4 py-1.5 rounded-full border border-[#d2d2d7] text-sm font-medium text-apple-muted tracking-tight">Useful</span>
+                    <span class="px-4 py-1.5 rounded-full border border-[#d2d2d7] text-sm font-medium text-apple-muted tracking-tight">Maintainable</span>
+                    <span class="px-4 py-1.5 rounded-full border border-[#d2d2d7] text-sm font-medium text-apple-muted tracking-tight">Built to last</span>
+                </div>
+            </div>
+
+            <div class="reveal delay-300">
+                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-apple-muted mb-4">First chapter</p>
+                <p class="text-2xl md:text-3xl tracking-tight mb-3">
                     <a href="/teacher-utility-kit/"
                        class="text-apple-link font-semibold hover:underline decoration-1 underline-offset-[12px] transition-all">
                         Teacher Utility Kit
                         <span class="ml-1 inline-block transition-transform hover:translate-x-1 duration-500">→</span>
                     </a>
                 </p>
+                <p class="text-base text-apple-muted font-medium tracking-tight">
+                    A collection of practical tools for CS classrooms.
+                </p>
             </div>
         </div>
     </div>
 </section>
 
-<footer class="py-12 bg-[#f5f5f7]">
-    <div class="max-w-4xl mx-auto px-6 text-center reveal">
-        <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter mb-6">Let's build something great.</h2>
+<footer class="bg-[#f5f5f7]">
+    <div class="max-w-4xl mx-auto px-6">
 
-        <div class="flex flex-wrap justify-center gap-5 mb-10">
-            <a href="https://github.com/itmir913" target="_blank"
-               class="px-8 py-3.5 border border-[#d2d2d7] bg-white text-apple-text rounded-full text-base font-semibold hover:bg-apple-text hover:text-white hover:border-apple-text transition-all duration-500">
-                GitHub
-            </a>
-            <a href="mailto:itmir913@gmail.com"
-               class="px-8 py-3.5 border border-[#d2d2d7] bg-white text-apple-text rounded-full text-base font-semibold hover:bg-apple-text hover:text-white hover:border-apple-text transition-all duration-500">
-                Email Me
-            </a>
+        <div class="reveal py-16 md:py-20 text-center border-b border-[#d2d2d7]">
+            <h2 class="text-3xl md:text-4xl font-semibold tracking-tighter mb-3">Have a problem worth solving?</h2>
+            <p class="text-base text-apple-muted font-medium tracking-tight mb-10">
+                A useful conversation is its own kind of tool.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-3 w-full max-w-sm mx-auto sm:max-w-none">
+                <a href="https://github.com/itmir913" target="_blank"
+                   class="flex-1 sm:flex-none sm:w-44 text-center px-7 py-3 border border-[#d2d2d7] bg-white text-apple-text rounded-full text-sm font-semibold hover:bg-apple-text hover:text-white hover:border-apple-text transition-all duration-300">
+                    GitHub
+                </a>
+                <a href="mailto:hello@luminousky.com"
+                   class="flex-1 sm:flex-none sm:w-44 text-center px-7 py-3 border border-[#d2d2d7] bg-white text-apple-text rounded-full text-sm font-semibold hover:bg-apple-text hover:text-white hover:border-apple-text transition-all duration-300">
+                    Email
+                </a>
+            </div>
         </div>
 
-        <p class="text-base font-medium text-apple-muted tracking-tight">
-            &copy; 2026 CS Teacher & Developer. Built with clean code and minimalist design.
-        </p>
+        <div class="reveal delay-100 py-7 flex flex-col md:flex-row justify-between items-center gap-2">
+            <span class="text-sm font-semibold tracking-tight text-apple-text">@ luminousky</span>
+            <p class="text-sm font-medium text-apple-muted tracking-tight">
+                &copy; 2026 · Useful things, built to last.
+            </p>
+        </div>
+
     </div>
 </footer>
 
