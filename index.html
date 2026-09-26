@@ -9,6 +9,7 @@
     <meta property="og:description" content="Remarkable, beautiful structures.">
     <meta property="og:url" content="https://luminousky.com">
     <meta property="og:type" content="website">
+    <meta name="color-scheme" content="light dark">
     <link rel="icon" href="https://luminousky.com/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="https://luminousky.com/apple-touch-icon.png">
 
@@ -24,10 +25,15 @@
                     },
                     colors: {
                         apple: {
-                            bg: '#fbfbfd',    /* Apple's signature light background */
-                            text: '#1d1d1f',  /* Apple's primary dark text */
-                            muted: '#86868b', /* Apple's secondary gray text */
-                            link: '#0066cc'   /* Apple's classic blue link color */
+                            /* Channels live in CSS variables so dark mode can swap them */
+                            bg: 'rgb(var(--c-bg) / <alpha-value>)',
+                            surface: 'rgb(var(--c-surface) / <alpha-value>)',
+                            footer: 'rgb(var(--c-footer) / <alpha-value>)',
+                            btn: 'rgb(var(--c-btn) / <alpha-value>)',
+                            line: 'rgb(var(--c-line) / <alpha-value>)',
+                            text: 'rgb(var(--c-text) / <alpha-value>)',
+                            muted: 'rgb(var(--c-muted) / <alpha-value>)',
+                            link: 'rgb(var(--c-link) / <alpha-value>)'
                         }
                     },
                     letterSpacing: {
@@ -42,11 +48,36 @@
     <style>
         @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
 
+        /* Color channels (Apple palette); dark values below */
+        :root {
+            --c-bg: 251 251 253;
+            --c-surface: 255 255 255;
+            --c-footer: 245 245 247;
+            --c-btn: 255 255 255;
+            --c-line: 210 210 215;
+            --c-text: 29 29 31;
+            --c-muted: 134 134 139;
+            --c-link: 0 102 204;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --c-bg: 0 0 0;
+                --c-surface: 0 0 0;
+                --c-footer: 13 13 15;
+                --c-btn: 28 28 30;
+                --c-line: 51 51 54;
+                --c-text: 245 245 247;
+                --c-muted: 161 161 166;
+                --c-link: 41 151 255;
+            }
+        }
+
         /* Apply Pretendard font and Apple-like base styling */
         body {
             font-family: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
-            background-color: #fbfbfd;
-            color: #1d1d1f;
+            background-color: rgb(var(--c-bg));
+            color: rgb(var(--c-text));
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             letter-spacing: -0.01em;
@@ -160,6 +191,25 @@
             }
         }
 
+        /* Before dawn: the same sky, an hour earlier */
+        @media (prefers-color-scheme: dark) {
+            .hero-sky {
+                background: linear-gradient(to bottom, #070a1c 0%, #111334 38%, #2a1a3e 66%, #4a2436 86%, #000000 100%);
+            }
+
+            .hero-sun {
+                background: radial-gradient(ellipse at center, rgba(255, 150, 110, 0.45) 0%, rgba(200, 90, 110, 0.22) 35%, transparent 70%);
+            }
+
+            @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+                .sky-text {
+                    background: linear-gradient(100deg, #9fb0ff 0%, #c3a6ff 38%, #f3a7c6 68%, #ffb899 100%);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                }
+            }
+        }
+
         .text-balance {
             text-wrap: balance;
         }
@@ -176,12 +226,12 @@
         }
     </style>
 </head>
-<body class="selection:bg-apple-text selection:text-white">
+<body class="selection:bg-apple-text selection:text-apple-surface">
 
 <section class="hero-sky relative min-h-[50vh] py-16 flex flex-col items-center justify-center px-6 overflow-hidden">
     <div class="absolute inset-0 w-full h-full pointer-events-none z-0">
         <div class="hero-sun"></div>
-        <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-apple-surface to-transparent"></div>
     </div>
 
     <div class="z-10 text-center max-w-4xl mx-auto relative -translate-y-10">
@@ -205,7 +255,7 @@
     </div>
 </section>
 
-<section id="about" class="pt-12 md:pt-40 pb-20 md:pb-28 px-6 bg-white">
+<section id="about" class="pt-12 md:pt-40 pb-20 md:pb-28 px-6 bg-apple-surface">
     <div class="max-w-4xl mx-auto">
         <div class="text-center">
             <p class="reveal text-2xl md:text-4xl font-semibold leading-snug tracking-tight text-balance mb-16 md:mb-20">
@@ -223,8 +273,8 @@
     </div>
 </section>
 
-<section id="work" class="px-6 bg-white">
-    <div class="max-w-4xl mx-auto border-t border-[#d2d2d7] pt-20 md:pt-28 pb-24 md:pb-40">
+<section id="work" class="px-6 bg-apple-surface">
+    <div class="max-w-4xl mx-auto border-t border-apple-line pt-20 md:pt-28 pb-24 md:pb-40">
         <div class="text-center">
             <div class="reveal">
                 <p class="text-sm font-semibold uppercase tracking-[0.2em] text-apple-muted mb-8">Selected work</p>
@@ -275,21 +325,21 @@
     </div>
 </section>
 
-<footer class="bg-[#f5f5f7]">
+<footer class="bg-apple-footer">
     <div class="max-w-4xl mx-auto px-6">
 
-        <div class="reveal py-16 md:py-20 text-center border-b border-[#d2d2d7]">
+        <div class="reveal py-16 md:py-20 text-center border-b border-apple-line">
             <h2 class="text-3xl md:text-4xl font-semibold tracking-tighter mb-3">Have a problem worth solving?</h2>
             <p class="text-base text-apple-muted font-medium tracking-tight mb-10">
                 I'd like to hear about it.
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-3 w-full max-w-sm mx-auto sm:max-w-none">
                 <a href="https://github.com/itmir913" target="_blank"
-                   class="flex-1 sm:flex-none sm:w-44 text-center px-7 py-3 border border-[#d2d2d7] bg-white text-apple-text rounded-full text-sm font-semibold hover:bg-apple-text hover:text-white hover:border-apple-text transition-all duration-300">
+                   class="flex-1 sm:flex-none sm:w-44 text-center px-7 py-3 border border-apple-line bg-apple-btn text-apple-text rounded-full text-sm font-semibold hover:bg-apple-text hover:text-apple-surface hover:border-apple-text transition-all duration-300">
                     GitHub
                 </a>
                 <a href="mailto:hello@luminousky.com"
-                   class="flex-1 sm:flex-none sm:w-44 text-center px-7 py-3 border border-[#d2d2d7] bg-white text-apple-text rounded-full text-sm font-semibold hover:bg-apple-text hover:text-white hover:border-apple-text transition-all duration-300">
+                   class="flex-1 sm:flex-none sm:w-44 text-center px-7 py-3 border border-apple-line bg-apple-btn text-apple-text rounded-full text-sm font-semibold hover:bg-apple-text hover:text-apple-surface hover:border-apple-text transition-all duration-300">
                     Email
                 </a>
             </div>
