@@ -10,6 +10,7 @@
     <meta property="og:url" content="https://luminousky.com">
     <meta property="og:type" content="website">
 
+    <script>document.documentElement.classList.add('js');</script>
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
@@ -50,7 +51,8 @@
         }
 
         /* --- Apple-style Smooth Scroll Animations --- */
-        .reveal {
+        /* Hidden only when JS runs, so content stays visible if scripts fail */
+        .js .reveal {
             opacity: 0;
             transform: translateY(30px);
             /* Apple uses a very specific, smooth cubic-bezier for animations */
@@ -58,7 +60,7 @@
             will-change: opacity, transform;
         }
 
-        .reveal.active {
+        .js .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
@@ -170,6 +172,21 @@
             background: #ffbfa1;
             animation-delay: -10s;
         }
+
+        .text-balance {
+            text-wrap: balance;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero-blob, .animate-bounce-subtle, .hero-animate {
+                animation: none;
+            }
+            .hero-animate, .js .reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        }
     </style>
 </head>
 <body class="selection:bg-apple-text selection:text-white">
@@ -186,7 +203,7 @@
         <h1 class="text-5xl md:text-7xl font-semibold tracking-tighter mb-6 hero-animate">
             luminousky
         </h1>
-        <p class="text-xl md:text-2xl text-apple-muted font-medium max-w-2xl mx-auto hero-animate hero-delay-1 tracking-tight leading-relaxed">
+        <p class="text-2xl md:text-3xl text-apple-text font-medium max-w-2xl mx-auto hero-animate hero-delay-1 tracking-tight leading-relaxed">
             Remarkable, beautiful structures.
         </p>
     </div>
@@ -203,7 +220,7 @@
     </div>
 </section>
 
-<section id="about" class="py-24 md:py-40 px-6 bg-white">
+<section id="about" class="pt-24 md:pt-40 pb-20 md:pb-28 px-6 bg-white">
     <div class="max-w-4xl mx-auto">
         <div class="text-center">
             <p class="reveal text-2xl md:text-4xl font-semibold leading-snug tracking-tight mb-16 md:mb-20">
@@ -211,23 +228,20 @@
                 Not add to it.
             </p>
 
-            <div class="reveal delay-100 max-w-2xl mx-auto mb-16 md:mb-20">
+            <div class="reveal delay-100 max-w-2xl mx-auto">
                 <p class="text-xl md:text-2xl text-apple-muted font-medium tracking-tight leading-relaxed">
                     I build tools that start with a real problem and stop the moment
                     the solution becomes genuinely simple. No compromise on quality. I think in decades, not trends.
                 </p>
             </div>
+        </div>
+    </div>
+</section>
 
-            <div class="reveal delay-200 mb-16 md:mb-20">
-                <div class="flex flex-wrap justify-center gap-2">
-                    <span class="px-4 py-1.5 rounded-full border border-[#d2d2d7] text-sm font-medium text-apple-muted tracking-tight">Simple</span>
-                    <span class="px-4 py-1.5 rounded-full border border-[#d2d2d7] text-sm font-medium text-apple-muted tracking-tight">Useful</span>
-                    <span class="px-4 py-1.5 rounded-full border border-[#d2d2d7] text-sm font-medium text-apple-muted tracking-tight">Uncompromising</span>
-                    <span class="px-4 py-1.5 rounded-full border border-[#d2d2d7] text-sm font-medium text-apple-muted tracking-tight">Built to last</span>
-                </div>
-            </div>
-
-            <div class="reveal delay-300">
+<section id="work" class="px-6 bg-white">
+    <div class="max-w-4xl mx-auto border-t border-[#d2d2d7] pt-20 md:pt-28 pb-24 md:pb-40">
+        <div class="text-center">
+            <div class="reveal">
                 <p class="text-sm font-semibold uppercase tracking-[0.2em] text-apple-muted mb-8">Selected work</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-8">
                     <div>
@@ -238,7 +252,7 @@
                                 <span class="ml-1 inline-block transition-transform hover:translate-x-1 duration-500">→</span>
                             </a>
                         </p>
-                        <p class="text-base text-apple-muted font-medium tracking-tight">
+                        <p class="text-base text-apple-muted font-medium tracking-tight text-balance">
                             Hands-on machine learning in the browser.<br>
                             Nothing leaves your device.
                         </p>
@@ -251,7 +265,7 @@
                                 <span class="ml-1 inline-block transition-transform hover:translate-x-1 duration-500">→</span>
                             </a>
                         </p>
-                        <p class="text-base text-apple-muted font-medium tracking-tight">
+                        <p class="text-base text-apple-muted font-medium tracking-tight text-balance">
                             Less routine work.<br>
                             More time for teaching.
                         </p>
@@ -259,7 +273,7 @@
                 </div>
             </div>
 
-            <div class="reveal delay-400 mt-16 md:mt-20">
+            <div class="reveal delay-100 mt-16 md:mt-20">
                 <p class="text-sm font-semibold uppercase tracking-[0.2em] text-apple-muted mb-4">Archive</p>
                 <p class="text-2xl md:text-3xl tracking-tight mb-3">
                     <a href="https://luminousky.com/archive/timeline"
@@ -268,7 +282,7 @@
                         <span class="ml-1 inline-block transition-transform hover:translate-x-1 duration-500">→</span>
                     </a>
                 </p>
-                <p class="text-base text-apple-muted font-medium tracking-tight">
+                <p class="text-base text-apple-muted font-medium tracking-tight text-balance">
                     A running record of the whole journey — from the first commit to now.
                 </p>
             </div>
@@ -297,9 +311,9 @@
         </div>
 
         <div class="reveal delay-100 py-7 flex flex-col md:flex-row justify-between items-center gap-2">
-            <span class="text-sm font-semibold tracking-tight text-apple-text">@ luminousky</span>
+            <span class="text-sm font-semibold tracking-tight text-apple-text">&copy; 2026 luminousky</span>
             <p class="text-sm font-medium text-apple-muted tracking-tight">
-                &copy; 2026 · Useful things, built to last.
+                Useful things, built to last.
             </p>
         </div>
 
