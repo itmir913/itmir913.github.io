@@ -9,11 +9,24 @@
     <meta property="og:description" content="Remarkable, beautiful structures.">
     <meta property="og:url" content="https://luminousky.com">
     <meta property="og:type" content="website">
-    <meta name="color-scheme" content="light dark">
     <link rel="icon" href="https://luminousky.com/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="https://luminousky.com/apple-touch-icon.png">
 
-    <script>document.documentElement.classList.add('js');</script>
+    <script>
+        // Runs before paint: saved choice wins; first visit starts from the OS preference
+        (function () {
+            var root = document.documentElement;
+            var theme = null;
+            root.classList.add('js');
+            try {
+                theme = localStorage.getItem('theme');
+            } catch (e) {}
+            if (theme !== 'light' && theme !== 'dark') {
+                theme = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            root.dataset.theme = theme;
+        })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
@@ -60,17 +73,21 @@
             --c-link: 0 102 204;
         }
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --c-bg: 0 0 0;
-                --c-surface: 0 0 0;
-                --c-footer: 13 13 15;
-                --c-btn: 28 28 30;
-                --c-line: 51 51 54;
-                --c-text: 245 245 247;
-                --c-muted: 161 161 166;
-                --c-link: 41 151 255;
-            }
+        /* Theme is set on <html data-theme> by the toggle, never by media query at render time */
+        :root {
+            color-scheme: light;
+        }
+
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+            --c-bg: 0 0 0;
+            --c-surface: 0 0 0;
+            --c-footer: 13 13 15;
+            --c-btn: 28 28 30;
+            --c-line: 51 51 54;
+            --c-text: 245 245 247;
+            --c-muted: 161 161 166;
+            --c-link: 41 151 255;
         }
 
         /* Apply Pretendard font and Apple-like base styling */
@@ -192,22 +209,33 @@
         }
 
         /* Before dawn: the same sky, an hour earlier */
-        @media (prefers-color-scheme: dark) {
-            .hero-sky {
-                background: linear-gradient(to bottom, #070a1c 0%, #111334 38%, #2a1a3e 66%, #4a2436 86%, #000000 100%);
-            }
+        [data-theme="dark"] .hero-sky {
+            background: linear-gradient(to bottom, #070a1c 0%, #111334 38%, #2a1a3e 66%, #4a2436 86%, #000000 100%);
+        }
 
-            .hero-sun {
-                background: radial-gradient(ellipse at center, rgba(255, 150, 110, 0.45) 0%, rgba(200, 90, 110, 0.22) 35%, transparent 70%);
-            }
+        [data-theme="dark"] .hero-sun {
+            background: radial-gradient(ellipse at center, rgba(255, 150, 110, 0.45) 0%, rgba(200, 90, 110, 0.22) 35%, transparent 70%);
+        }
 
-            @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-                .sky-text {
-                    background: linear-gradient(100deg, #9fb0ff 0%, #c3a6ff 38%, #f3a7c6 68%, #ffb899 100%);
-                    -webkit-background-clip: text;
-                    background-clip: text;
-                }
+        @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+            [data-theme="dark"] .sky-text {
+                background: linear-gradient(100deg, #9fb0ff 0%, #c3a6ff 38%, #f3a7c6 68%, #ffb899 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
             }
+        }
+
+        /* Theme toggle: show the icon of the theme you would switch to */
+        .theme-toggle .icon-sun {
+            display: none;
+        }
+
+        [data-theme="dark"] .theme-toggle .icon-sun {
+            display: block;
+        }
+
+        [data-theme="dark"] .theme-toggle .icon-moon {
+            display: none;
         }
 
         .text-balance {
@@ -233,6 +261,19 @@
         <div class="hero-sun"></div>
         <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-apple-surface to-transparent"></div>
     </div>
+
+    <button type="button" id="theme-toggle" aria-label="Switch to dark mode"
+            class="theme-toggle absolute top-5 right-5 md:top-6 md:right-6 z-20 w-10 h-10 flex items-center justify-center rounded-full border border-apple-line/60 bg-apple-surface/40 backdrop-blur text-apple-muted hover:text-apple-text transition-colors duration-300">
+        <svg class="icon-moon w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+        </svg>
+        <svg class="icon-sun w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" stroke-width="1.5"></circle>
+            <path stroke-linecap="round" stroke-width="1.5"
+                  d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        </svg>
+    </button>
 
     <div class="z-10 text-center max-w-4xl mx-auto relative -translate-y-10">
         <h1 class="sky-text text-5xl md:text-7xl font-semibold tracking-tighter mb-6 hero-animate">
@@ -372,6 +413,21 @@
 
         reveals.forEach(reveal => {
             observer.observe(reveal);
+        });
+
+        const root = document.documentElement;
+        const toggle = document.getElementById('theme-toggle');
+        const syncLabel = () => {
+            toggle.setAttribute('aria-label', root.dataset.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+        };
+
+        syncLabel();
+        toggle.addEventListener('click', () => {
+            root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+            try {
+                localStorage.setItem('theme', root.dataset.theme);
+            } catch (e) {}
+            syncLabel();
         });
     });
 </script>
