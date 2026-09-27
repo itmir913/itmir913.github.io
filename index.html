@@ -197,6 +197,8 @@
         /* Sky-toned wordmark; falls back to plain text where clipping is unsupported */
         @supports ((-webkit-background-clip: text) or (background-clip: text)) {
             .sky-text {
+                /* Room for the descender: clipped text paints only inside the box */
+                padding-bottom: 0.12em;
                 background: linear-gradient(100deg, #3346b0 0%, #5e3bb3 38%, #a03a74 68%, #bb5227 100%);
                 -webkit-background-clip: text;
                 background-clip: text;
