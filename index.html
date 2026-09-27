@@ -178,13 +178,10 @@
             background: linear-gradient(to bottom, #9dbcf5 0%, #c2b8f4 38%, #f2c8dc 66%, #ffcfb3 84%, #ffffff 100%);
         }
 
-        @keyframes sun-rise {
-            from {
-                transform: translate(-50%, 6%);
-            }
-            to {
-                transform: translate(-50%, -4%);
-            }
+        /* Fade the glow out before the hero edge so it never leaks as a seam */
+        .hero-glow {
+            -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
         }
 
         .hero-sun {
@@ -195,7 +192,6 @@
             height: 80%;
             transform: translateX(-50%);
             background: radial-gradient(ellipse at center, rgba(255, 184, 140, 0.95) 0%, rgba(255, 204, 170, 0.6) 35%, transparent 70%);
-            animation: sun-rise 14s ease-in-out infinite alternate;
         }
 
         /* Sky-toned wordmark; falls back to plain text where clipping is unsupported */
@@ -243,7 +239,7 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .hero-sun, .animate-bounce-subtle, .hero-animate {
+            .animate-bounce-subtle, .hero-animate {
                 animation: none;
             }
             .hero-animate, .js .reveal {
@@ -257,7 +253,7 @@
 <body class="selection:bg-apple-text selection:text-apple-surface">
 
 <section class="hero-sky relative min-h-[50vh] py-16 flex flex-col items-center justify-center px-6 overflow-hidden">
-    <div class="absolute inset-0 w-full h-full pointer-events-none z-0">
+    <div class="hero-glow absolute inset-0 w-full h-full pointer-events-none z-0">
         <div class="hero-sun"></div>
         <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-apple-surface to-transparent"></div>
     </div>
