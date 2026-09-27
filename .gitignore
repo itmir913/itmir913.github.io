@@ -286,4 +286,4 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
-# End of https://www.toptal.com/developers/gitignore/api/intellij,python
+# End of https://www.toptal.com/developers/gitignore/api/intellij,python.claude/
