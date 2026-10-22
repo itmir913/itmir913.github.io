@@ -290,3 +290,7 @@ pyrightconfig.json
 
 # Claude Code local config
 .claude/
+
+# Node
+node_modules/
+dist/
