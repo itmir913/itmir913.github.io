@@ -8,16 +8,28 @@ const BARS = ["h-[34%]", "h-[53%]", "h-[45%]", "h-[76%]", "h-[62%]", "h-[96%]"];
 const ART = {
     chart: t => win(t, `<div class="flex h-24 items-end gap-2.5 px-3.5">${BARS.map(h => `<i class="flex-1 rounded-t-lg rounded-b-sm bg-[var(--accent)] opacity-80 ${h}"></i>`).join("")}</div>`),
     flow: (...rows) => `<div class="grid w-[90%] gap-2">${rows.map(([a, b]) => `<div class="flex justify-between gap-3 rounded-xl border border-white/75 bg-white/60 dark:border-white/10 dark:bg-white/[0.07] px-3.5 py-3 text-sm"><b class="font-bold">${a}</b><span class="opacity-65">${b}</span></div>`).join("")}</div>`,
-    timeline: () => `<div class="${PANEL} w-[88%] rotate-2 rounded-2xl p-5">${[["●", "Built", "w-[82%]"], ["●", "Learned", "w-[64%]"], ["●", "Kept", "w-[48%]"]].map(([y, a, w]) => `<div class="grid grid-cols-[20px_1fr] items-center gap-3 py-2.5 text-sm"><b class="text-[var(--accent)]">${y}</b><div><div class="font-bold">${a}</div><div class="mt-2 h-2 ${w} rounded-lg bg-[rgba(25,35,50,.12)] dark:bg-white/10"></div></div></div>`).join("")}</div>`
+    timeline: () => `<div class="${PANEL} w-[88%] rotate-2 rounded-2xl p-5">${[["●", "Built", "w-[82%]"], ["●", "Learned", "w-[64%]"], ["●", "Kept", "w-[48%]"]].map(([y, a, w]) => `<div class="grid grid-cols-[20px_1fr] items-center gap-3 py-2.5 text-sm"><b class="text-[var(--accent)]">${y}</b><div><div class="font-bold">${a}</div><div class="mt-2 h-2 ${w} rounded-lg bg-[rgba(25,35,50,.12)] dark:bg-white/10"></div></div></div>`).join("")}</div>`,
+
+    // Below: each card draws a shrunken view of the page it links to.
+    // ML Playgrounds: logistic regression, the sigmoid fitted to 0/1 labels and its 0.5 threshold
+    ml: () => {
+        const ones = [38, 52, 58, 64, 72, 80, 88, 94], zeros = [6, 14, 22, 30, 36, 44, 48, 62];
+        const dot = (x, y, on) => `<i class="absolute h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${on ? "bg-[var(--accent)]" : "border-2 border-[rgba(30,40,55,.35)] dark:border-white/40"}" style="left:${x}%;top:${y}%"></i>`;
+        return win("Logistic regression", `<div class="relative h-28"><svg class="absolute inset-0 h-full w-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none"><line x1="0" y1="50" x2="100" y2="50" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4" vector-effect="non-scaling-stroke" opacity=".3"/><line x1="50" y1="0" x2="50" y2="100" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3 4" vector-effect="non-scaling-stroke" opacity=".5"/><polyline points="0,89.8 4,89.7 8,89.6 12,89.3 16,88.9 20,88.2 24,87.0 28,85.2 32,82.4 36,78.2 40,72.2 44,64.3 48,55.0 52,45.0 56,35.7 60,27.8 64,21.8 68,17.6 72,14.8 76,13.0 80,11.8 84,11.1 88,10.7 92,10.4 96,10.3 100,10.2" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>${ones.map(x => dot(x, 10, 1)).join("")}${zeros.map(x => dot(x, 90, 0)).join("")}<span class="absolute -left-1 top-1/2 -translate-y-1/2 text-[10px] opacity-50">0.5</span><span class="absolute bottom-[-2px] right-0 translate-y-full rounded-full border border-white/85 bg-white/70 px-2 py-0.5 font-mono text-[11px] dark:border-white/10 dark:bg-black/30">σ(wx + b)</span></div><div class="h-5"></div>`);
+    },
+    // Teacher Utility Kit: its landing in miniature, the gradient title over the five work areas
+    kit: () => `<div class="${PANEL} w-[88%] -rotate-2 overflow-hidden rounded-2xl p-3.5">${WIN_HEAD}<div class="mt-3 rounded-xl bg-[linear-gradient(to_bottom,#c2b8f4,#f2c8dc_60%,#ffcfb3)] px-3 py-4 text-center dark:bg-[linear-gradient(to_bottom,#1c1645,#30184a)]"><b class="bg-[linear-gradient(100deg,#3346b0,#a03a74_68%,#bb5227)] bg-clip-text pb-[.1em] text-lg font-extrabold leading-none tracking-[-.05em] text-transparent dark:bg-[linear-gradient(100deg,#a9b8ff,#ff9fcb_68%,#ffb48f)]">Teacher Utility Kit</b></div><div class="mt-2.5 flex flex-wrap justify-center gap-1.5 text-xs">${[["Teaching", "bg-[#dfe7ff] dark:bg-[#1d2550]"], ["Assessment", "bg-[#f6e3ef] dark:bg-[#3a1d33]"], ["Records", "bg-[#e7e1fb] dark:bg-[#271f4a]"], ["Admissions", "bg-[#fbe6dc] dark:bg-[#3d2418]"], ["Operations", "bg-[#dff1ea] dark:bg-[#17352c]"]].map(([s, c]) => `<span class="rounded-lg px-2.5 py-1.5 font-semibold ${c}">${s}</span>`).join("")}</div></div>`,
+    // Timeline: years down a rail, newest first
+    eras: () => `<div class="${PANEL} relative w-[88%] rotate-2 rounded-2xl py-3.5 pl-5 pr-4 text-sm"><i class="absolute bottom-6 left-[calc(2rem-1px)] top-6 w-0.5 bg-[rgba(30,40,55,.18)] dark:bg-white/20"></i>${[["2026", "luminousky"], ["2024", "CS Education Tools"], ["2021", "Computer Science"], ["2015", "Software for Others"], ["2012", "First ROM & Kernel"]].map(([y, t], i) => `<div class="relative grid grid-cols-[24px_3em_1fr] items-center gap-2 py-1.5"><i class="mx-auto h-2.5 w-2.5 rounded-full ${i ? "bg-[var(--accent)] opacity-50" : "bg-[var(--accent)] shadow-[0_0_0_4px_rgba(255,255,255,.6)] dark:shadow-[0_0_0_4px_rgba(255,255,255,.12)]"}"></i><b class="tabular-nums text-[var(--accent)]">${y}</b><span class="truncate ${i ? "opacity-70" : "font-semibold"}">${t}</span></div>`).join("")}</div>`
 };
 
 const SECTIONS = [
     { id: "work", title: "Work", line: "Tools that start with a real problem and stop when the answer is simple.", tools: [
-        { name: "ML Playgrounds", copy: "Hands-on machine learning in the browser. Nothing leaves your device.", tag: "Machine Learning", url: "https://luminousky.com/ml-playgrounds/", art: ART.chart("Model training") },
-        { name: "Teacher Utility Kit", copy: "Less routine work. More time for teaching.", tag: "For teachers", url: "https://luminousky.com/teacher-utility-kit/", art: ART.flow(["Teaching", "Class"], ["Records", "Write"], ["Operations", "Daily"]) }
+        { name: "ML Playgrounds", copy: "Hands-on machine learning in the browser. Nothing leaves your device.", tag: "Machine Learning", url: "https://luminousky.com/ml-playgrounds/", art: ART.ml() },
+        { name: "Teacher Utility Kit", copy: "Less routine work. More time for teaching.", tag: "For teachers", url: "https://luminousky.com/teacher-utility-kit/", art: ART.kit() }
     ]},
     { id: "archive", title: "Archive", line: "A running record of what I've built, learned, and kept.", tools: [
-        { name: "The Timeline", copy: "Everything so far, in the order it happened.", tag: "Archive", url: "https://luminousky.com/archive/timeline", art: ART.timeline() }
+        { name: "The Timeline", copy: "Everything so far, in the order it happened.", tag: "Archive", url: "https://luminousky.com/archive/timeline", art: ART.eras() }
     ]}
 ];
 
@@ -76,7 +88,7 @@ document.getElementById("chapters").innerHTML = SECTIONS.map((s, i) => {
         sm:flex sm:h-svh sm:flex-col sm:justify-center sm:px-[clamp(20px,5.5vw,88px)] sm:pb-[clamp(32px,7svh,96px)] sm:pt-[clamp(72px,12svh,150px)]">
         <div data-reveal class="mx-auto mb-[clamp(28px,4vw,52px)] sm:mb-[clamp(16px,min(4vw,4svh),52px)] flex w-full max-w-6xl flex-col items-start gap-6 md:flex-row md:items-end md:justify-between ${REVEAL} transition-[opacity,filter,translate] duration-1000 ease-brand">
             <h2 id="${s.id}-h" class="text-[clamp(56px,17vw,88px)] font-extrabold leading-[.86] tracking-[-.08em] sm:text-[clamp(48px,min(10vw,14svh),142px)]">${s.title}</h2>
-            <p class="mb-1.5 max-w-lg text-[clamp(16px,1.35vw,19px)] leading-normal tracking-tight opacity-80 md:max-w-sm">${s.line}</p>
+            <p class="mb-1.5 max-w-lg text-[clamp(16px,1.35vw,19px)] leading-normal tracking-tight opacity-80 md:max-w-sm md:text-right">${s.line}</p>
         </div>
         <div class="mx-auto grid w-full max-w-6xl grid-cols-1 gap-3.5 sm:grid-cols-12 sm:gap-[clamp(12px,1.45vw,22px)]">
             ${s.tools.map((t, i) => card(t, spans[i], n % 2 === 1 && i === n - 1, n === 1)).join("")}
