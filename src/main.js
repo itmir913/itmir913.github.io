@@ -134,10 +134,19 @@ if ("IntersectionObserver" in window) {
 }
 
 // Nudge the background shapes as the page scrolls.
+// Only sections on screen get updated; rewriting every section's blurred layer each frame is wasted paint.
+const visible = new Set("IntersectionObserver" in window ? [] : sections);
+if ("IntersectionObserver" in window) {
+    const vo = new IntersectionObserver(entries => {
+        entries.forEach(e => e.isIntersecting ? visible.add(e.target) : visible.delete(e.target));
+        onScroll();
+    });
+    sections.forEach(s => vo.observe(s));
+}
 let ticking = false;
 const onScroll = () => {
     NAV_SCROLLED.forEach(c => nav.classList.toggle(c, scrollY > 24));
-    if (!reduceMotion) sections.forEach(s => {
+    if (!reduceMotion) visible.forEach(s => {
         const r = s.getBoundingClientRect();
         const p = Math.max(-1, Math.min(1, (innerHeight * .5 - (r.top + r.height * .5)) / (innerHeight + r.height * .5)));
         s.style.setProperty("--orb-x", `${p * 28}px`);
