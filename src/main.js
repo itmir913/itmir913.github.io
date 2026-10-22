@@ -59,7 +59,7 @@ const card = (t, span, alone, solo) => {
     return `
     <a class="${CARD} ${alone ? "sm:col-span-12" : "sm:col-span-6"} ${SPAN_LG[span]} ${pick("card")} ${REVEAL}" data-reveal href="${t.url}">
         <div class="relative z-20 flex items-center justify-between gap-4 text-sm opacity-80 ${pick("text")}">
-            <span class="rounded-full border border-white/85 bg-white/60 dark:border-white/10 dark:bg-white/[0.08] px-2.5 py-1 text-xs">${t.tag}</span>
+            <span class="rounded-full border border-black/15 bg-white/60 dark:border-white/20 dark:bg-white/[0.08] px-2.5 py-1 text-xs">${t.tag}</span>
             <span aria-hidden="true" class="text-2xl text-[var(--accent)] transition-transform duration-500 ease-brand group-hover:translate-x-1 group-hover:-translate-y-1">↗</span>
         </div>
         <h3 class="relative z-20 mb-2 mt-5 text-2xl font-bold leading-none tracking-[-.06em] sm:text-[clamp(24px,2.3vw,34px)] ${pick("text")}">${t.name}</h3>
