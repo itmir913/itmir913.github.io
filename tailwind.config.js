@@ -2,6 +2,8 @@ import plugin from 'tailwindcss/plugin.js';
 
 /** @type {import('tailwindcss').Config} */
 export default {
+    // Apply hover only on devices that can hover (mouse); on touch it would stick after a tap.
+    future: { hoverOnlyWhenSupported: true },
     content: ['./index.html', './src/**/*.js'],
     darkMode: ['selector', '[data-theme="dark"]'],
     theme: {
