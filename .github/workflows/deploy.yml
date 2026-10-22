@@ -10,9 +10,10 @@ permissions:
   pages: write
   id-token: write
 
+# One deploy at a time. Never cancel one in progress: cutting it off midway can leave the site half-updated.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
