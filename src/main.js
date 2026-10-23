@@ -24,11 +24,11 @@ const ART = {
 };
 
 const SECTIONS = [
-    { id: "work", title: "Work", line: "Tools that start with a real problem and stop when the answer is simple.", tools: [
+    { id: "work", title: "Work", line: "Tools that start with a real problem and stop when the answer is simple — free to use, and made to keep working long after the hype moves on.", tools: [
         { name: "ML Playgrounds", copy: "Hands-on machine learning in the browser. Nothing leaves your device.", tag: "Machine Learning", url: "https://luminousky.com/ml-playgrounds/", art: ART.ml() },
         { name: "Teacher Utility Kit", copy: "Less routine work. More time for teaching.", tag: "For teachers", url: "https://luminousky.com/teacher-utility-kit/", art: ART.kit() }
     ]},
-    { id: "archive", title: "Archive", line: "A running record of what I've built, learned, and kept.", tools: [
+    { id: "archive", title: "Archive", line: "A running record of what I've built, learned, and kept — from a first custom ROM to the tools teachers use today, each one a step toward simpler, longer-lasting work.", tools: [
         { name: "The Timeline", copy: "Everything so far, in the order it happened.", tag: "Archive", url: "https://luminousky.com/archive/timeline", art: ART.eras() }
     ]}
 ];
@@ -72,8 +72,8 @@ const card = (t, span, alone, solo) => {
 // Sections without a shape take the next one in the cycle, so adding a section needs no other change.
 const ORB = "before:absolute before:-z-10 before:opacity-50 before:mix-blend-multiply dark:before:mix-blend-screen dark:before:opacity-40 sm:before:opacity-70 dark:sm:before:opacity-50 before:blur-sm before:content-[''] before:[translate:var(--orb-x,0)_var(--orb-y,0)] before:transition-[translate] before:duration-1000 before:ease-brand";
 const SHAPES = {
-    orb: "before:right-[-35vw] before:top-[4%] before:aspect-square before:w-[110vw] before:rounded-full before:bg-[var(--orb)] sm:before:right-[-24vw] sm:before:w-[min(72vw,980px)]",
-    arch: "before:bottom-0 before:right-[-8vw] before:h-[70%] before:w-[70vw] before:rounded-t-full before:bg-[var(--orb)] sm:before:right-[6vw] sm:before:w-[min(38vw,520px)]",
+    halo: "before:right-[-40vw] before:top-[2%] before:aspect-square before:w-[115vw] before:rounded-full before:bg-[radial-gradient(circle,transparent_44%,var(--orb)_46%,var(--orb)_60%,transparent_62%)] sm:before:right-[-22vw] sm:before:w-[min(70vw,960px)]",
+    horizon: "before:bottom-[-30%] before:left-1/2 before:h-[60%] before:w-[150vw] before:-translate-x-1/2 before:rounded-[50%] before:bg-[var(--orb)] sm:before:w-[min(120vw,1600px)]",
 };
 const SHAPE_CYCLE = Object.values(SHAPES);
 
@@ -87,7 +87,10 @@ document.getElementById("chapters").innerHTML = SECTIONS.map((s, i) => {
         ${ORB} ${SHAPES[s.shape] ?? SHAPE_CYCLE[i % SHAPE_CYCLE.length]}
         sm:flex sm:h-svh sm:flex-col sm:justify-center sm:px-[clamp(20px,5.5vw,88px)] sm:pb-[clamp(32px,7svh,96px)] sm:pt-[clamp(72px,12svh,150px)]">
         <div data-reveal class="mx-auto mb-[clamp(28px,4vw,52px)] sm:mb-[clamp(16px,min(4vw,4svh),52px)] flex w-full max-w-5xl flex-col items-start gap-6 md:flex-row md:items-end md:justify-between ${REVEAL} transition-[opacity,filter,translate] duration-1000 ease-brand">
+            <div>
+            <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-[var(--accent)]">${String(i + 1).padStart(2, "0")} — ${s.title}</p>
             <h2 id="${s.id}-h" class="text-[clamp(56px,17vw,88px)] font-extrabold leading-[.86] tracking-[-.08em] sm:text-[clamp(48px,min(10vw,14svh),142px)]">${s.title}</h2>
+            </div>
             <p class="mb-1.5 max-w-lg text-[clamp(16px,1.35vw,19px)] leading-normal tracking-tight opacity-80 md:max-w-sm md:text-right">${s.line}</p>
         </div>
         <div class="mx-auto grid w-full max-w-5xl grid-cols-1 gap-3.5 sm:grid-cols-12 sm:gap-[clamp(12px,1.45vw,22px)]">

@@ -16,8 +16,8 @@ export default {
                 ink: '#1d1d1f',
                 night: '#08090f',
                 // Per-section palettes. Keys match section ids; night holds the dark-mode values.
-                work: { bg: '#eef2ff', ink: '#202a55', orb: '#b8c9ff', accent: '#5e70d8', night: { bg: '#0c1024', ink: '#e2e6ff', orb: '#26326e', accent: '#8e9cff' } },
-                archive: { bg: '#f8f0e9', ink: '#452b20', orb: '#ffd0ae', accent: '#bb5227', night: { bg: '#170e09', ink: '#fbe5d8', orb: '#5c3018', accent: '#ff9a66' } },
+                work: { bg: '#e9f6f6', ink: '#10393f', orb: '#9fe0dc', accent: '#12838c', night: { bg: '#061619', ink: '#d6f4f2', orb: '#134a4c', accent: '#5fd6cf' } },
+                archive: { bg: '#f8f3e6', ink: '#3f3216', orb: '#f3d68c', accent: '#a8741a', night: { bg: '#15110a', ink: '#f6ead0', orb: '#5a4517', accent: '#f0c35c' } },
             },
             transitionTimingFunction: {
                 brand: 'cubic-bezier(.16,1,.3,1)'
