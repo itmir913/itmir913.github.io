@@ -145,31 +145,50 @@ onNav();
 const later = fn => "requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 2000 }) : setTimeout(fn, 200);
 
 // Weak devices keep the glass but drop the parallax: a still backdrop lets the browser stop re-blurring the cards.
-// Starts from hardware hints, then switches on if the first second of frames runs slow (a busy CPU counts too).
+// Starts from hardware hints, then switches on if the first 60 frames run slow (a busy CPU counts too).
+// Gaps over 250ms are a background tab or a pause, not slowness, so they are skipped.
 let lite = matchMedia("(pointer: coarse)").matches || navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4;
-if (!lite) {
-    let frames = 0, last = performance.now(), sum = 0;
+const goLite = () => {
+    lite = true;
+    root.dataset.perf = "lite";
+    sections.forEach(s => { s.style.removeProperty("--orb-x"); s.style.removeProperty("--orb-y"); });
+};
+if (lite) root.dataset.perf = "lite";
+else {
+    let frames = 0, sum = 0, last;
     const probe = now => {
-        sum += now - last; last = now;
-        if (++frames < 60) return requestAnimationFrame(probe);
-        if (sum / frames > 20) {
-            lite = true;
-            sections.forEach(s => { s.style.removeProperty("--orb-x"); s.style.removeProperty("--orb-y"); });
-        }
+        const dt = now - (last ?? now); last = now;
+        if (dt > 0 && dt < 250) { sum += dt; frames++; }
+        if (frames < 60) return requestAnimationFrame(probe);
+        if (sum / frames > 20) goLite();
     };
     requestAnimationFrame(probe);
 }
-if (lite) root.dataset.perf = "lite";
 
 // Nudge the background shapes as the page scrolls, easing toward the target in JS and stopping once there,
 // so the blurred layers stop repainting as soon as the page is still. Only sections on screen get updated.
+// While the parallax runs, frame gaps are averaged 30 at a time; two slow windows in a row (over 25ms) switch to lite.
+// The first frame after a restart and gaps over 250ms are skipped.
 if (!reduceMotion && "IntersectionObserver" in window) later(() => {
     if (lite) return;
     const visible = new Set(), pos = new Map();
-    let running = false;
-    const step = () => {
+    let running = false, fresh = true, prev = 0, gaps = [], slow = 0;
+    const step = now => {
         running = false;
         if (lite) return;
+        const dt = now - prev; prev = now;
+        if (fresh || dt >= 250) gaps = [];
+        else if (gaps.push(dt) === 30) {
+            slow = gaps.reduce((a, b) => a + b) / 30 > 25 ? slow + 1 : 0;
+            gaps = [];
+            if (slow >= 2) {
+                goLite();
+                vo.disconnect();
+                removeEventListener("scroll", kick);
+                return;
+            }
+        }
+        fresh = false;
         visible.forEach(s => {
             const r = s.getBoundingClientRect();
             const p = Math.max(-1, Math.min(1, (innerHeight * .5 - (r.top + r.height * .5)) / (innerHeight + r.height * .5)));
@@ -181,7 +200,7 @@ if (!reduceMotion && "IntersectionObserver" in window) later(() => {
         });
         if (running) requestAnimationFrame(step);
     };
-    const kick = () => { if (!running) { running = true; requestAnimationFrame(step); } };
+    const kick = () => { if (!running) { running = true; fresh = true; requestAnimationFrame(step); } };
     const vo = new IntersectionObserver(entries => {
         entries.forEach(e => e.isIntersecting ? visible.add(e.target) : visible.delete(e.target));
         kick();
