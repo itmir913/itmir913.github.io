@@ -83,7 +83,7 @@ const SHAPE_CYCLE = Object.values(SHAPES);
 document.getElementById("chapters").innerHTML = SECTIONS.map((s, i) => {
     const n = s.tools.length, spans = layout(n);
     return `
-    <section id="${s.id}" data-tone="${s.id}" aria-labelledby="${s.id}-h" class="snap-start lg:snap-always relative isolate overflow-hidden [content-visibility:auto] [contain-intrinsic-size:auto_100svh] px-4 pb-24 pt-24
+    <section id="${s.id}" data-tone="${s.id}" aria-labelledby="${s.id}-h" class="snap-start lg:snap-always relative isolate overflow-hidden px-4 pb-24 pt-24
         ${ORB} ${SHAPES[s.shape] ?? SHAPE_CYCLE[i % SHAPE_CYCLE.length]}
         lg:flex lg:h-svh lg:flex-col lg:justify-center sm:px-[clamp(20px,5.5vw,88px)] sm:pb-[clamp(32px,7svh,96px)] sm:pt-[clamp(72px,12svh,150px)]">
         <div data-reveal class="mx-auto mb-[clamp(28px,4vw,52px)] sm:mb-[clamp(16px,min(4vw,4svh),52px)] flex w-full max-w-5xl flex-col items-start gap-6 md:flex-row md:items-end md:justify-between ${REVEAL} transition-[opacity,filter,translate] duration-1000 ease-brand">
