@@ -70,7 +70,7 @@ const card = (t, span, alone, solo) => {
 
 // Abstract shape behind each section. ORB owns colour, opacity and parallax; SHAPES only shape and position.
 // Sections without a shape take the next one in the cycle, so adding a section needs no other change.
-const ORB = "before:absolute before:-z-10 before:opacity-50 before:mix-blend-multiply dark:before:mix-blend-screen dark:before:opacity-40 sm:before:opacity-70 dark:sm:before:opacity-50 before:blur-sm before:content-[''] before:[translate:var(--orb-x,0)_var(--orb-y,0)] before:transition-[translate] before:duration-1000 before:ease-brand";
+const ORB = "before:absolute before:-z-10 before:opacity-50 before:mix-blend-multiply dark:before:mix-blend-screen dark:before:opacity-40 sm:before:opacity-70 dark:sm:before:opacity-50 before:blur-sm before:content-[''] before:[translate:var(--orb-x,0)_var(--orb-y,0)] before:will-change-[translate]";
 const SHAPES = {
     halo: "before:right-[-40vw] before:top-[2%] before:aspect-square before:w-[115vw] before:rounded-full before:bg-[radial-gradient(circle,transparent_44%,var(--orb)_46%,var(--orb)_60%,transparent_62%)] sm:before:right-[-22vw] sm:before:w-[min(70vw,960px)]",
     horizon: "before:bottom-[-30%] before:left-1/2 before:h-[60%] before:w-[150vw] before:-translate-x-1/2 before:rounded-[50%] before:bg-[var(--orb)] sm:before:w-[min(120vw,1600px)]",
@@ -83,7 +83,7 @@ const SHAPE_CYCLE = Object.values(SHAPES);
 document.getElementById("chapters").innerHTML = SECTIONS.map((s, i) => {
     const n = s.tools.length, spans = layout(n);
     return `
-    <section id="${s.id}" data-tone="${s.id}" aria-labelledby="${s.id}-h" class="snap-start lg:snap-always relative isolate overflow-hidden px-4 pb-24 pt-24
+    <section id="${s.id}" data-tone="${s.id}" aria-labelledby="${s.id}-h" class="snap-start lg:snap-always relative isolate overflow-hidden [content-visibility:auto] [contain-intrinsic-size:auto_100svh] px-4 pb-24 pt-24
         ${ORB} ${SHAPES[s.shape] ?? SHAPE_CYCLE[i % SHAPE_CYCLE.length]}
         lg:flex lg:h-svh lg:flex-col lg:justify-center sm:px-[clamp(20px,5.5vw,88px)] sm:pb-[clamp(32px,7svh,96px)] sm:pt-[clamp(72px,12svh,150px)]">
         <div data-reveal class="mx-auto mb-[clamp(28px,4vw,52px)] sm:mb-[clamp(16px,min(4vw,4svh),52px)] flex w-full max-w-5xl flex-col items-start gap-6 md:flex-row md:items-end md:justify-between ${REVEAL} transition-[opacity,filter,translate] duration-1000 ease-brand">
@@ -136,32 +136,66 @@ if ("IntersectionObserver" in window) {
     [...sections, document.getElementById("about")].forEach(s => so.observe(s));
 }
 
-// Nudge the background shapes as the page scrolls.
-// Only sections on screen get updated; rewriting every section's blurred layer each frame is wasted paint.
-const visible = new Set("IntersectionObserver" in window ? [] : sections);
-if ("IntersectionObserver" in window) {
+let ticking = false;
+const onNav = () => { NAV_SCROLLED.forEach(c => nav.classList.toggle(c, scrollY > 24)); ticking = false; };
+addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onNav); } }, { passive: true });
+onNav();
+
+// Decoration waits for idle time, but the timeout guarantees it still runs on a busy CPU.
+const later = fn => "requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 2000 }) : setTimeout(fn, 200);
+
+// Weak devices keep the glass but drop the parallax: a still backdrop lets the browser stop re-blurring the cards.
+// Starts from hardware hints, then switches on if the first second of frames runs slow (a busy CPU counts too).
+let lite = matchMedia("(pointer: coarse)").matches || navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4;
+if (!lite) {
+    let frames = 0, last = performance.now(), sum = 0;
+    const probe = now => {
+        sum += now - last; last = now;
+        if (++frames < 60) return requestAnimationFrame(probe);
+        if (sum / frames > 20) {
+            lite = true;
+            sections.forEach(s => { s.style.removeProperty("--orb-x"); s.style.removeProperty("--orb-y"); });
+        }
+    };
+    requestAnimationFrame(probe);
+}
+if (lite) root.dataset.perf = "lite";
+
+// Nudge the background shapes as the page scrolls, easing toward the target in JS and stopping once there,
+// so the blurred layers stop repainting as soon as the page is still. Only sections on screen get updated.
+if (!reduceMotion && "IntersectionObserver" in window) later(() => {
+    if (lite) return;
+    const visible = new Set(), pos = new Map();
+    let running = false;
+    const step = () => {
+        running = false;
+        if (lite) return;
+        visible.forEach(s => {
+            const r = s.getBoundingClientRect();
+            const p = Math.max(-1, Math.min(1, (innerHeight * .5 - (r.top + r.height * .5)) / (innerHeight + r.height * .5)));
+            const cur = pos.get(s) ?? p, next = Math.abs(p - cur) < .002 ? p : cur + (p - cur) * .12;
+            pos.set(s, next);
+            s.style.setProperty("--orb-x", `${next * 28}px`);
+            s.style.setProperty("--orb-y", `${next * -18}px`);
+            if (next !== p) running = true;
+        });
+        if (running) requestAnimationFrame(step);
+    };
+    const kick = () => { if (!running) { running = true; requestAnimationFrame(step); } };
     const vo = new IntersectionObserver(entries => {
         entries.forEach(e => e.isIntersecting ? visible.add(e.target) : visible.delete(e.target));
-        onScroll();
+        kick();
     });
     sections.forEach(s => vo.observe(s));
-}
-let ticking = false;
-const onScroll = () => {
-    NAV_SCROLLED.forEach(c => nav.classList.toggle(c, scrollY > 24));
-    if (!reduceMotion) visible.forEach(s => {
-        const r = s.getBoundingClientRect();
-        const p = Math.max(-1, Math.min(1, (innerHeight * .5 - (r.top + r.height * .5)) / (innerHeight + r.height * .5)));
-        s.style.setProperty("--orb-x", `${p * 28}px`);
-        s.style.setProperty("--orb-y", `${p * -18}px`);
-    });
-    ticking = false;
-};
-addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-onScroll();
+    addEventListener("scroll", kick, { passive: true });
+});
+
+// The about backdrop drifts forever; pause it while off screen.
+const about = document.getElementById("about");
+if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => about.classList.toggle("before:[animation-play-state:paused]", !e.isIntersecting)).observe(about);
 
 // Cards tilt slightly toward the pointer and a soft light follows it.
-if (!reduceMotion && matchMedia("(hover: hover) and (pointer: fine)").matches) {
+if (!reduceMotion && matchMedia("(hover: hover) and (pointer: fine)").matches) later(() => {
     document.querySelectorAll("[data-reveal][href]").forEach(c => {
         c.addEventListener("pointermove", e => {
             const r = c.getBoundingClientRect();
@@ -173,4 +207,4 @@ if (!reduceMotion && matchMedia("(hover: hover) and (pointer: fine)").matches) {
         });
         c.addEventListener("pointerleave", () => { c.style.setProperty("--card-rx", "0deg"); c.style.setProperty("--card-ry", "0deg"); });
     });
-}
+});
