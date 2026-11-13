@@ -46,8 +46,8 @@ const SPLIT = {
     solo: { card: "sm:grid sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] sm:grid-rows-[auto_auto_1fr] sm:gap-x-[6%] sm:min-h-[clamp(260px,min(36vw,52svh),480px)]", text: "sm:col-start-1 sm:self-start", art: "sm:col-start-2 sm:row-span-3 sm:row-start-1 sm:m-0 sm:min-h-full sm:scale-110" },
     lgOff: { card: "lg:flex lg:min-h-[clamp(260px,min(36vw,52svh),480px)]", text: "", art: "lg:-mx-1 lg:-mb-1.5 lg:mt-5 lg:min-h-48" }
 };
-const REVEAL = "opacity-0 blur-sm [translate:0_34px]";
-const CARD = "group relative isolate col-span-1 flex min-h-80 min-w-0 flex-col overflow-hidden rounded-3xl border border-white/75 bg-white/50 p-5 shadow-[0_14px_50px_rgba(43,49,72,.055),inset_0_1px_0_rgba(255,255,255,.88)] dark:border-white/10 dark:bg-white/[0.05] dark:shadow-[0_14px_50px_rgba(0,0,0,.35),inset_0_1px_0_rgba(255,255,255,.08)] dark:hover:border-white/20 dark:hover:bg-white/[0.08] dark:before:bg-[radial-gradient(360px_circle_at_var(--pointer-x,50%)_var(--pointer-y,50%),rgba(255,255,255,.08),transparent_68%)] backdrop-blur-sm sm:backdrop-blur-lg backdrop-saturate-150 [transform:perspective(1100px)_rotateX(var(--card-rx,0deg))_rotateY(var(--card-ry,0deg))] transition-[opacity,filter,translate,transform,background-color,box-shadow,border-color] duration-1000 ease-brand hover:border-white hover:bg-white/65 hover:shadow-[0_28px_76px_rgba(43,49,72,.105),inset_0_1px_0_#fff] hover:[transform:perspective(1100px)_rotateX(var(--card-rx,0deg))_rotateY(var(--card-ry,0deg))_translateY(-8px)] before:pointer-events-none before:absolute before:inset-0 before:z-10 before:rounded-[inherit] before:bg-[radial-gradient(360px_circle_at_var(--pointer-x,50%)_var(--pointer-y,50%),rgba(255,255,255,.7),transparent_68%)] before:opacity-0 before:transition-opacity before:duration-500 before:content-[''] hover:before:opacity-100 sm:min-h-[clamp(260px,min(36vw,52svh),480px)] sm:rounded-[clamp(24px,2.3vw,34px)] sm:p-[clamp(20px,2.2vw,32px)] md:backdrop-blur-xl md:backdrop-saturate-150 motion-reduce:hover:[transform:none]";
+const REVEAL = "opacity-0 [translate:0_34px]";
+const CARD = "group relative isolate col-span-1 flex min-h-80 min-w-0 flex-col overflow-hidden rounded-3xl border border-white/75 bg-white/50 p-5 shadow-[0_14px_50px_rgba(43,49,72,.055),inset_0_1px_0_rgba(255,255,255,.88)] dark:border-white/10 dark:bg-white/[0.05] dark:shadow-[0_14px_50px_rgba(0,0,0,.35),inset_0_1px_0_rgba(255,255,255,.08)] dark:hover:border-white/20 dark:hover:bg-white/[0.08] dark:before:bg-[radial-gradient(360px_circle_at_var(--pointer-x,50%)_var(--pointer-y,50%),rgba(255,255,255,.08),transparent_68%)] backdrop-blur-sm sm:backdrop-blur-lg backdrop-saturate-150 [transform:perspective(1100px)_rotateX(var(--card-rx,0deg))_rotateY(var(--card-ry,0deg))] transition-[opacity,translate,transform,background-color,box-shadow,border-color] duration-1000 ease-brand hover:border-white hover:bg-white/65 hover:shadow-[0_28px_76px_rgba(43,49,72,.105),inset_0_1px_0_#fff] hover:[transform:perspective(1100px)_rotateX(var(--card-rx,0deg))_rotateY(var(--card-ry,0deg))_translateY(-8px)] before:pointer-events-none before:absolute before:inset-0 before:z-10 before:rounded-[inherit] before:bg-[radial-gradient(360px_circle_at_var(--pointer-x,50%)_var(--pointer-y,50%),rgba(255,255,255,.7),transparent_68%)] before:opacity-0 before:transition-opacity before:duration-500 before:content-[''] hover:before:opacity-100 sm:min-h-[clamp(260px,min(36vw,52svh),480px)] sm:rounded-[clamp(24px,2.3vw,34px)] sm:p-[clamp(20px,2.2vw,32px)] md:backdrop-blur-xl md:backdrop-saturate-150 motion-reduce:hover:[transform:none]";
 
 const card = (t, span, alone, solo) => {
     // alone: the last card of an odd count, left by itself on a tablet row
@@ -70,7 +70,7 @@ const card = (t, span, alone, solo) => {
 
 // Abstract shape behind each section. ORB owns colour, opacity and parallax; SHAPES only shape and position.
 // Sections without a shape take the next one in the cycle, so adding a section needs no other change.
-const ORB = "before:absolute before:-z-10 before:opacity-50 before:mix-blend-multiply dark:before:mix-blend-screen dark:before:opacity-40 sm:before:opacity-70 dark:sm:before:opacity-50 before:blur-sm before:content-[''] before:[translate:var(--orb-x,0)_var(--orb-y,0)] before:will-change-[translate]";
+const ORB = "before:absolute before:-z-10 before:opacity-50 before:mix-blend-multiply dark:before:mix-blend-screen dark:before:opacity-40 sm:before:opacity-70 dark:sm:before:opacity-50 before:blur-sm before:content-['']";
 const SHAPES = {
     halo: "before:right-[-40vw] before:top-[2%] before:aspect-square before:w-[115vw] before:rounded-full before:bg-[radial-gradient(circle,transparent_44%,var(--orb)_46%,var(--orb)_60%,transparent_62%)] sm:before:right-[-22vw] sm:before:w-[min(70vw,960px)]",
     horizon: "before:bottom-[-30%] before:left-1/2 before:h-[60%] before:w-[150vw] before:-translate-x-1/2 before:rounded-[50%] before:bg-[var(--orb)] sm:before:w-[min(120vw,1600px)]",
@@ -86,7 +86,7 @@ document.getElementById("chapters").innerHTML = SECTIONS.map((s, i) => {
     <section id="${s.id}" data-tone="${s.id}" aria-labelledby="${s.id}-h" class="snap-start lg:snap-always relative isolate overflow-hidden px-4 pb-24 pt-24
         ${ORB} ${SHAPES[s.shape] ?? SHAPE_CYCLE[i % SHAPE_CYCLE.length]}
         lg:flex lg:h-svh lg:flex-col lg:justify-center sm:px-[clamp(20px,5.5vw,88px)] sm:pb-[clamp(32px,7svh,96px)] sm:pt-[clamp(72px,12svh,150px)]">
-        <div data-reveal class="mx-auto mb-[clamp(28px,4vw,52px)] sm:mb-[clamp(16px,min(4vw,4svh),52px)] flex w-full max-w-5xl flex-col items-start gap-6 md:flex-row md:items-end md:justify-between ${REVEAL} transition-[opacity,filter,translate] duration-1000 ease-brand">
+        <div data-reveal class="mx-auto mb-[clamp(28px,4vw,52px)] sm:mb-[clamp(16px,min(4vw,4svh),52px)] flex w-full max-w-5xl flex-col items-start gap-6 md:flex-row md:items-end md:justify-between ${REVEAL} transition-[opacity,translate] duration-1000 ease-brand">
             <div>
             <p class="mb-4 text-sm font-semibold uppercase tracking-widest text-[var(--accent)]">${String(i + 1).padStart(2, "0")} — ${s.title}</p>
             <h2 id="${s.id}-h" class="text-[clamp(56px,17vw,88px)] font-extrabold leading-[.86] tracking-[-.08em] sm:text-[clamp(48px,min(10vw,14svh),142px)]">${s.title}</h2>
@@ -144,32 +144,7 @@ onNav();
 // Decoration waits for idle time, but the timeout guarantees it still runs on a busy CPU.
 const later = fn => "requestIdleCallback" in window ? requestIdleCallback(fn, { timeout: 2000 }) : setTimeout(fn, 200);
 
-// Nudge the background shapes as the page scrolls, easing toward the target in JS and stopping once there,
-// so the blurred layers stop repainting as soon as the page is still. Only sections on screen get updated.
-if (!reduceMotion && "IntersectionObserver" in window) later(() => {
-    const visible = new Set(), pos = new Map();
-    let running = false;
-    const step = () => {
-        running = false;
-        visible.forEach(s => {
-            const r = s.getBoundingClientRect();
-            const p = Math.max(-1, Math.min(1, (innerHeight * .5 - (r.top + r.height * .5)) / (innerHeight + r.height * .5)));
-            const cur = pos.get(s) ?? p, next = Math.abs(p - cur) < .002 ? p : cur + (p - cur) * .12;
-            pos.set(s, next);
-            s.style.setProperty("--orb-x", `${next * 12}px`);
-            s.style.setProperty("--orb-y", `${next * -8}px`);
-            if (next !== p) running = true;
-        });
-        if (running) requestAnimationFrame(step);
-    };
-    const kick = () => { if (!running) { running = true; requestAnimationFrame(step); } };
-    const vo = new IntersectionObserver(entries => {
-        entries.forEach(e => e.isIntersecting ? visible.add(e.target) : visible.delete(e.target));
-        kick();
-    });
-    sections.forEach(s => vo.observe(s));
-    addEventListener("scroll", kick, { passive: true });
-});
+// The background shapes stay still: moving them makes every glass card above recompute its backdrop blur each frame.
 
 // The about backdrop drifts forever; pause it while off screen.
 const about = document.getElementById("about");
@@ -177,15 +152,25 @@ if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => about.cl
 
 // Cards tilt slightly toward the pointer and a soft light follows it.
 if (!reduceMotion && matchMedia("(hover: hover) and (pointer: fine)").matches) later(() => {
+    // Read the card's box once on enter and batch updates to one per frame.
     document.querySelectorAll("[data-reveal][href]").forEach(c => {
-        c.addEventListener("pointermove", e => {
-            const r = c.getBoundingClientRect();
-            const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        let r = null, px = 0, py = 0, queued = false;
+        const paint = () => {
+            queued = false;
+            if (!r) return;
+            const x = (px - r.left) / r.width, y = (py - r.top) / r.height;
             c.style.setProperty("--pointer-x", `${x * 100}%`);
             c.style.setProperty("--pointer-y", `${y * 100}%`);
             c.style.setProperty("--card-rx", `${(.5 - y) * 2.1}deg`);
             c.style.setProperty("--card-ry", `${(x - .5) * 2.6}deg`);
+        };
+        c.addEventListener("pointerenter", () => { r = c.getBoundingClientRect(); });
+        c.addEventListener("pointermove", e => {
+            px = e.clientX; py = e.clientY;
+            if (!r) r = c.getBoundingClientRect();
+            if (!queued) { queued = true; requestAnimationFrame(paint); }
         });
-        c.addEventListener("pointerleave", () => { c.style.setProperty("--card-rx", "0deg"); c.style.setProperty("--card-ry", "0deg"); });
+        c.addEventListener("pointerleave", () => { r = null; c.style.setProperty("--card-rx", "0deg"); c.style.setProperty("--card-ry", "0deg"); });
+        addEventListener("scroll", () => { r = null; }, { passive: true });
     });
 });
